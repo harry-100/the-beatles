@@ -1,0 +1,41 @@
+.apple {
+    color:red
+    }
+.blueberry {
+    color:blue
+}
+.grape {
+    color: green;
+}
+.bigtext {
+    font-size: 150%;
+}
+.tinytext {
+    font-size: 50%;
+}
+.centeredtext {
+    text-align:center;
+}
+.boldtext {
+    font-weight: bold;
+}
+.bigorangebold {
+    font-size:150%;
+    font-weight: bold;
+    color: orange;
+}
+.styledFont {
+    font-style:italic;
+    color:purple;
+}
+#styledImage {
+    border-width: 20px;
+    border-color: red;
+    border-style: solid;
+}
+h2 {
+    color:seagreen
+}
+#album th{
+    color:blue
+}
