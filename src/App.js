@@ -1,22 +1,26 @@
-import { Route } from "react-router-dom";
-import Welcome from "./pages/Welcome";
-import Products from "./pages/Products";
-import MainHeader from "./components/MainHeader";
-import ProductDetail from "./pages/ProductDetails";
+import { Route, Redirect } from 'react-router-dom';
+
+import Welcome from './pages/Welcome';
+import Products from './pages/Products';
+import ProductDetails from './pages/ProductDetail';
+import MainHeader from './components/MainHeader';
 
 function App() {
   return (
     <div>
       <MainHeader />
       <main>
-        <Route path="/welcome">
+        <Route exact path ="/">
+          <Redirect to="/welcome" />
+          </Route>
+        <Route exact path='/welcome'>
           <Welcome />
         </Route>
-        <Route path="/products">
+        <Route exact path='/products'>
           <Products />
         </Route>
-        <Route path="/product-detail">
-          <ProductDetail />
+        <Route exact path='/products/:productId'>
+          <ProductDetails />
         </Route>
       </main>
     </div>
@@ -24,3 +28,7 @@ function App() {
 }
 
 export default App;
+
+// our-domain.com/welcome => Welcome Component
+// our-domain.com/products => Products Component
+// our-domain.com/product-detail/a-book
