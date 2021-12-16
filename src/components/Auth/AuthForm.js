@@ -1,9 +1,11 @@
 import { useState, useRef, useContext } from 'react';
-import AuthContext from '../../store/auth-context';
+import { useHistory } from 'react-router-dom';
 
+import AuthContext from '../../store/auth-context';
 import classes from './AuthForm.module.css';
 
 const AuthForm = () => {
+  const history = useHistory();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
@@ -25,15 +27,13 @@ const AuthForm = () => {
     // optional: Add validation
 
     setIsLoading(true);
-    const apiKey = 'AIzaSyBfUIGezImF90UD-LrVfCDQIayOlAwenHs'
-    const loginUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`;
-    // console.log(loginUrl);
-    const signupUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`;
     let url;
     if (isLogin) {
-      url = loginUrl;
+      url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBfUIGezImF90UD-LrVfCDQIayOlAwenHs';
     } else {
-      url = signupUrl;
+      url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBfUIGezImF90UD-LrVfCDQIayOlAwenHs';
     }
     fetch(url, {
       method: 'POST',
@@ -62,7 +62,11 @@ const AuthForm = () => {
         }
       })
       .then((data) => {
-        authCtx.login(data.idToken);
+        const expirationTime = new Date(
+          new Date().getTime() + +data.expiresIn * 1000
+        );
+        authCtx.login(data.idToken, expirationTime.toISOString());
+        history.replace('/');
       })
       .catch((err) => {
         alert(err.message);
