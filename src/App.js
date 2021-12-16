@@ -1,24 +1,32 @@
-import { Route, Switch, Redirect } from "react-router-dom";
-import AllQuotes from "./pages/AllQuotes";
-import NewQuote from "./pages/NewQuote";
-import QuoteDetails from "./pages/QuoteDetails";
-import Layout from "./components/layout/Layout";
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { useContext } from 'react';
+import Layout from './components/Layout/Layout';
+import UserProfile from './components/Profile/UserProfile';
+import AuthPage from './pages/AuthPage';
+import HomePage from './pages/HomePage';
+import AuthContext from './store/auth-context';
+
 function App() {
+  const authCtx = useContext(AuthContext);
   return (
     <Layout>
       <Switch>
-        <Route exact path="/">
-          <Redirect to="/quotes" />
+        <Route path='/' exact>
+          <HomePage />
         </Route>
-        <Route exact path="/quotes">
-          <AllQuotes />
+        {!authCtx.isLoggedIn && 
+        (<Route path='/auth'>
+          <AuthPage />
+        </Route>)}
+
+        <Route path='/profile'>
+        {authCtx.isLoggedIn && <UserProfile />}
+        {!authCtx.isLoggedIn && <Redirect to='/auth' />}
         </Route>
-        <Route path="/quotes/:quoteId">
-          <QuoteDetails />
+        <Route path='*'>
+        <Redirect to='/' />
         </Route>
-        <Route exact path="/new-quote">
-          <NewQuote />
-        </Route>
+
       </Switch>
     </Layout>
   );
